@@ -1,0 +1,65 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'org.openjfx.javafxplugin' version '0.0.5'
+}
+
+group 'com.github.kostrovik'
+version '1.0-SNAPSHOT'
+def moduleName = 'visual.qsort'
+
+sourceCompatibility = 11
+targetCompatibility = 11
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+repositories {
+    maven { url 'https://jitpack.io' }
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    testCompile("org.junit.jupiter:junit-jupiter-api:5.2.0")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.2.0")
+
+    implementation 'com.github.kostrovik:useful-utils:1.0.0'
+}
+
+javafx {
+    version = "11.0.+"
+    modules = [ 'javafx.controls' ]
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+idea {
+    module {
+        inheritOutputDirs = true
+    }
+}
+
+jar {
+    inputs.property("moduleName", moduleName)
+    manifest {
+        attributes(
+                'Automatic-Module-Name': moduleName,
+        )
+    }
+}
+
+compileJava {
+    inputs.property("moduleName", moduleName)
+    doFirst {
+        options.compilerArgs = [
+                '--module-path', classpath.asPath,
+        ]
+        classpath = files()
+    }
+}

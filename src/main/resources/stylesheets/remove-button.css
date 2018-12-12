@@ -1,0 +1,10 @@
+.number-item .button {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+    -fx-padding: 0px 0px;
+    -fx-text-fill: transparent;
+}
+
+.number-item .icon {
+    -fx-fill: #f02a2a;
+}
